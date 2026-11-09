@@ -1,0 +1,36 @@
+# ---------- Gradle ----------
+.gradle/
+# 所有模块的 build 目录（app/build 里有 90M+ 编译产物，注意这里是 "build/" 不是 "/build"）
+build/
+/captures/
+
+# ---------- 本地配置 ----------
+# local.properties 里是本机的 SDK 路径，每台机器都不一样，绝对不能提交
+local.properties
+
+# ---------- IDE ----------
+*.iml
+.idea/
+# 如果以后想和队友共享代码风格 / 运行配置，可以把上面这行换成只忽略下面这些：
+# .idea/caches/
+# .idea/libraries/
+# .idea/modules.xml
+# .idea/workspace.xml
+
+# ---------- 构建产物 ----------
+/app/release/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# ---------- Native ----------
+.externalNativeBuild/
+.cxx/
+
+# ---------- 系统 ----------
+.DS_Store
+Thumbs.db
+
+# ---------- AI 助手的工作目录 ----------
+.workbuddy/

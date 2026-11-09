@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:maxHeight="288dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/display_group_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@string/choose_group"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/show_group_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHeight_min="0dp"
+        app:layout_constraintBottom_toTopOf="@id/all_collections_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="160dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/display_group_title_tv"
+        tools:listitem="@layout/show_group_name" />
+
+    <TextView
+        android:id="@+id/all_collections_tv"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/show_group_rv"
+        app:layout_constraintBottom_toTopOf="@id/cancel_text"
+        android:textSize="20dp"
+        android:text="@string/all_collections"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/cancel_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/all_collections_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20dp"
+        android:text="@string/cancel"
+        android:gravity="center"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">MyProject</string>
+    <string name="username_hint">请输入用户名</string>
+    <string name="password_hint">请输入密码</string>
+    <string name="login_text">登录</string>
+    <string name="register">注册</string>
+    <string name="mainTitle">title</string>
+    <string name="author">author</string>
+    <string name="collectButton">收藏</string>
+    <string name="collect">收藏</string>
+    <string name="bottom_nav_menu_find">发现</string>
+    <string name="bottom_nav_menu_collect">收藏</string>
+    <string name="bottom_nav_menu_account">用户</string>
+    <string name="toolbar_menu_favourites">组内收藏</string>
+    <string name="toolbar_menu_edit_groups">编辑分组</string>
+    <string name="toolbar_menu_sort">排序</string>
+    <string name="account">用户</string>
+    <string name="change_password">更改账户密码</string>
+    <string name="change_account">切换账户</string>
+    <string name="logout_account">注销账户</string>
+    <string name="exit_account">退出账号</string>
+    <string name="welcome">欢迎您：%s</string>
+    <string name="group_manage">分组管理</string>
+    <string name="group_name">请输入新组名</string>
+    <string name="sort_way">排序方式</string>
+    <string name="mix">按收藏时间升序</string>
+    <string name="order">按收藏时间降序</string>
+    <string name="cancel">取消</string>
+    <string name="choose_group">选择分组</string>
+    <string name="all_collections">所有收藏</string>
+    <string name="add_to">添加到</string>
+    <string name="result">结果</string>
+    <string name="refresh">重新加载</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error">网络异常</string>
+    <string name="search">search</string>
+    <string name="show_item">show_item</string>
+    <string name="loadingMore">加载更多...</string>
+</resources>
