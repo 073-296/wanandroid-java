@@ -22,12 +22,6 @@
             android:name=".ui.activity.ChangeAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.AccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.FavouriteActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.activity.WebViewActivity"
             android:exported="false" />
         <activity
