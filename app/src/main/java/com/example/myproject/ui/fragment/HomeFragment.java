@@ -1,32 +1,24 @@
 package com.example.myproject.ui.fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.myproject.R;
-import com.example.myproject.databinding.ShowSearchResultBinding;
 import com.example.myproject.db.MyDatabaseHelper;
 import com.example.myproject.entity.api.BannerImage;
 import com.example.myproject.entity.db.CollectionItem;
@@ -37,9 +29,7 @@ import com.example.myproject.databinding.FragmentHomeBinding;
 import com.example.myproject.entity.api.Article;
 import com.example.myproject.entity.api.ArticleList;
 import com.example.myproject.ui.activity.WebViewActivity;
-import com.example.myproject.ui.adapter.SearchAdapter;
 import com.example.myproject.util.HttpUtil;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -59,8 +49,6 @@ public class HomeFragment extends Fragment {
     private MyRepository repo;
     private ViewPager2 viewPager2;
     private ImageSliderAdapter imageSliderAdapter;
-    private List<Article> searchList;
-    private ShowSearchResultBinding showSearchResultBinding;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson;
     private int pageCount = 0;
@@ -107,7 +95,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
-        showSearchResultBinding = ShowSearchResultBinding.inflate(getLayoutInflater());
         gson = new Gson();
 
         //创建Article集合
@@ -219,66 +206,6 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(requireActivity(), "收藏成功", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireActivity(), "未知错误", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //右上角关键词搜索
-        binding.searchIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText input = new EditText(requireActivity());
-                input.setInputType(InputType.TYPE_CLASS_TEXT);
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                builder
-                        .setTitle("搜索")
-                        .setMessage("请输入搜索内容")
-                        .setView(input)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String inputKeyWord = input.getText().toString();
-                                if (!inputKeyWord.isEmpty()) {
-                                    searchList = new ArrayList<>();
-                                    for (int i = 0; i < articles.size(); i++) {
-                                        String keyWord = articles.get(i).getTitle();
-                                        if (keyWord.matches(".*" + inputKeyWord + ".*")) {
-                                            searchList.add(articles.get(i));
-                                        }
-                                    }
-
-                                    BottomSheetDialog searchResultDialog = new BottomSheetDialog(requireActivity());
-                                    searchResultDialog.setContentView(showSearchResultBinding.getRoot());
-                                    SearchAdapter searchAdapter = new SearchAdapter(searchList);
-                                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-                                    showSearchResultBinding.searchResultRv.setAdapter(searchAdapter);
-                                    showSearchResultBinding.searchResultRv.setLayoutManager(layoutManager);
-                                    searchAdapter.setOnTitleClickListener(new SearchAdapter.OnTitleClickListener() {
-                                        @Override
-                                        public void onClick(int position) {
-                                            Intent intent = new Intent(requireActivity(), WebViewActivity.class);
-                                            intent.putExtra("Link", searchList.get(position).getLink());
-                                            startActivity(intent);
-                                        }
-                                    });
-                                    showSearchResultBinding.cancelTv.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            searchResultDialog.dismiss();
-                                        }
-                                    });
-                                    searchResultDialog.show();
-                                } else {
-                                    Toast.makeText(requireActivity(), "输入的内容不能为空", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
             }
         });
 

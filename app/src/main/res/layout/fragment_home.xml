@@ -26,19 +26,6 @@
         app:layout_constraintBottom_toTopOf="@+id/swiper_refresh_layout"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/search_iv"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="7dp"
-        android:clickable="true"
-        android:contentDescription="@string/search"
-        android:focusable="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiper_refresh_layout"
         android:layout_width="0dp"
