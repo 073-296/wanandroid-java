@@ -1,85 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.AccountFragment"
-    android:fitsSystemWindows="true">
+    android:background="?attr/colorSurface"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.fragment.AccountFragment">
 
-    <TextView
-        android:id="@+id/account_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:text="@string/account"
-        android:textSize="30dp"/>
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="24dp">
 
-    <ImageView
-        android:id="@+id/account_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_account"
-        android:scaleType="fitXY"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/account_text"/>
+        <!-- 页面标题 -->
+        <TextView
+            android:id="@+id/account_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="@string/account"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/account_welcome_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toEndOf="@+id/account_image"
-        android:layout_marginTop="10dp"
-        android:textSize="30dp"
-        app:layout_constraintTop_toTopOf="@+id/account_image"/>
+        <!-- 用户信息卡 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
-    <Button
-        android:id="@+id/change_password_bt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/account_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/change_account_bt"
-        android:text="@string/change_password"
-        android:textSize="20dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20dp">
 
-    <Button
-        android:id="@+id/change_account_bt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/change_password_bt"
-        app:layout_constraintStart_toEndOf="@+id/change_password_bt"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/change_account"
-        android:textSize="20dp"/>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
 
-    <Button
-        android:id="@+id/logout_account_bt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/change_password_bt"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/exit_account_bt"
-        android:text="@string/logout_account"
-        android:textSize="20dp"/>
+                    <ImageView
+                        android:id="@+id/account_image"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_account"
+                        app:tint="?attr/colorPrimary" />
+                </com.google.android.material.card.MaterialCardView>
 
-    <Button
-        android:id="@+id/exit_account_bt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/logout_account_bt"
-        app:layout_constraintStart_toEndOf="@+id/logout_account_bt"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/exit_account"
-        android:textSize="20dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/account_welcome_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="欢迎您：fetcy" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:alpha="0.7"
+                        android:text="@string/account_logged_in"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 账号设置 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/account_settings"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 更改账户密码 -->
+                <LinearLayout
+                    android:id="@+id/change_password_bt"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="12dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_edit"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="@string/change_password"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="?attr/colorOutline" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="52dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <!-- 切换账户 -->
+                <LinearLayout
+                    android:id="@+id/change_account_bt"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="12dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_swap"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="@string/change_account"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="?attr/colorOutline" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="52dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <!-- 退出账号 -->
+                <LinearLayout
+                    android:id="@+id/exit_account_bt"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="12dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_logout"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:text="@string/exit_account"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="?attr/colorOutline" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 危险操作 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/account_danger_zone"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp">
+
+            <!-- 注销账户：会删除账号数据，用红色区分 -->
+            <LinearLayout
+                android:id="@+id/logout_account_bt"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="12dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_garbage"
+                    app:tint="@color/danger" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:text="@string/logout_account"
+                    android:textColor="@color/danger"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/logout_account_tip"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- 危险操作（注销账户）用的红色，深色主题下的取值见 values-night/colors.xml -->
+    <color name="danger">#FFC62828</color>
 </resources>
