@@ -18,12 +18,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+        圆点指示器必须挂在自己就一定会显示出来的 ViewPager2 上。
+        以前挂的是 swiper_refresh_layout，而它在加载中/加载失败时是 GONE；
+        ConstraintLayout 会把 GONE 的控件压缩成一个点（这里因为上下都有约束、
+        高度又是 0dp，默认垂直 bias 0.5，就落在屏幕中间），
+        于是指示器跟着跑到文章区域去了。
+    -->
     <LinearLayout
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/swiper_refresh_layout"
+        app:layout_constraintBottom_toBottomOf="@id/view_pager2"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
