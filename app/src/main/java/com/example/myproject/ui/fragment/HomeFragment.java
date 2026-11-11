@@ -42,6 +42,11 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
+    /** 轮播指示器圆点的直径（dp） */
+    private static final float DOT_SIZE_DP = 8f;
+    /** 轮播指示器圆点的左右外边距（dp） */
+    private static final float DOT_MARGIN_DP = 4f;
+
     private FragmentHomeBinding binding;
     private String responseData;
     private List<Article> articles;
@@ -252,12 +257,17 @@ public class HomeFragment extends Fragment {
 
     private void setupIndicator(int count) {//参数count表示图片的个数
         binding.indicator.removeAllViews();
+        //直接写 20 / 10 是裸像素，在不同 dpi 的屏幕上物理大小不一致（420dpi 上只有约 7.6dp），
+        //这里统一换算成 dp，保证任何设备上圆点大小和间距都一样
+        float density = getResources().getDisplayMetrics().density;
+        int dotSize = (int) (DOT_SIZE_DP * density + 0.5f);
+        int dotMargin = (int) (DOT_MARGIN_DP * density + 0.5f);
         for (int i = 0; i < count; i++) {
             View dot = new View(requireActivity());
             dot.setBackgroundResource(i == 0 ? R.drawable.indicator_dot_selected : R.drawable.indicator_dot_unselected);
             //设置dot的布局参数
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
-            params.setMargins(10, 0, 10, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dotSize, dotSize);
+            params.setMargins(dotMargin, 0, dotMargin, 0);
             dot.setLayoutParams(params);
             binding.indicator.addView(dot);
         }
