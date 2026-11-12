@@ -5,39 +5,36 @@
     android:layout_height="wrap_content"
     android:paddingVertical="10dp">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
-
     <TextView
         android:id="@+id/title_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginBottom="4dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="2"
         android:text="@string/mainTitle"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/subTitle_text"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
-        android:minLines="2"
-        android:maxLines="2"
-        android:ellipsize="end"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/subTitle_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/author"
         android:ellipsize="end"
         android:maxLines="1"
+        android:text="@string/author"
         android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
         app:layout_constraintStart_toStartOf="@+id/title_text"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+        app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
     <Button
         android:id="@+id/collect_button"
@@ -47,7 +44,5 @@
         android:text="@string/collectButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
