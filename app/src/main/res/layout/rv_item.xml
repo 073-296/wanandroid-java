@@ -22,6 +22,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
+        android:minLines="2"
         android:maxLines="2"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent" />
