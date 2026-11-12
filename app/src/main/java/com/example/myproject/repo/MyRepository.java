@@ -17,24 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyRepository {
-    private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 2;
     public static final String SORT_ASC = "asc";
     public static final String SORT_DESC = "desc";
     private MyDatabaseHelper dbHelper;
     private SQLiteDatabase database;
 
     public MyRepository(Context context) {
-        dbHelper = new MyDatabaseHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
+        //数据库名和版本号已收进 MyDatabaseHelper，这里取的是全局唯一实例，
+        //重复 new MyRepository 也只是复用同一条连接，不会新开
+        dbHelper = MyDatabaseHelper.getInstance(context);
     }
 
+    /**
+     * 建立/复用连接。getWritableDatabase() 内部会缓存已打开的连接，
+     * 重复调用是幂等的，所以各页面照旧在 onCreate 里调用即可。
+     */
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
 
-    public void close() {
-        dbHelper.close();
-    }
+    //说明：close() 已移除。现在是全 App 共享一条连接，任何一处关掉都会让别的页面
+    //拿到"已关闭的数据库"而崩溃；连接由进程统一持有，进程退出时系统自动回收。
 
     //用户
     //注册
