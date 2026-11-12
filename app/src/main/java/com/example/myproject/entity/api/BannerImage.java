@@ -6,10 +6,19 @@ import java.util.List;
 
 public class BannerImage {
     @SerializedName("data")
-    public List<ImageMessage> data;
-    public int errorCode;
-    public String errorMsg;
+    private List<ImageMessage> data;
+    private int errorCode;
+    private String errorMsg;
 
+    public List<ImageMessage> getData() {
+        return data;
+    }
 
+    public int getErrorCode() {
+        return errorCode;
+    }
 
+    public String getErrorMsg() {
+        return errorMsg;
+    }
 }

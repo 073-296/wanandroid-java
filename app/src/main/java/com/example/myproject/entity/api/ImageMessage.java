@@ -1,6 +1,14 @@
 package com.example.myproject.entity.api;
 
 public class ImageMessage {
-    public String imagePath;
-    public String title;
+    private String imagePath;
+    private String title;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

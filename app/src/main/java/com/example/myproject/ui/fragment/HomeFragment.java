@@ -186,7 +186,8 @@ public class HomeFragment extends Fragment {
                 item.setUserId(userId);
             }
             item.setTitle(article.getTitle());
-            item.setAuthor(article.getAuthor());
+            //收藏时直接存“展示作者”（author 为空时是 shareUser），空则存空串，列表里再兜底成“佚名”
+            item.setAuthor(article.getDisplayAuthor());
             item.setLink(article.getLink());
             item.setCollectTime(collectTime);
             //判断是否已经添加过该文章
@@ -229,12 +230,12 @@ public class HomeFragment extends Fragment {
                 runOnUiIfAlive(() -> {
                     BannerImage bannerImage = gson.fromJson(responseData, BannerImage.class);
                     //获取到的图片的个数
-                    int length = bannerImage.data.size();
+                    int length = bannerImage.getData().size();
                     bannerCount = length;
                     //初始化小圆点
                     setupIndicator(length);
                     updateIndicator(0);
-                    imageSliderAdapter = new ImageSliderAdapter(requireActivity(), bannerImage.data);
+                    imageSliderAdapter = new ImageSliderAdapter(requireActivity(), bannerImage.getData());
                     binding.viewPager2.setAdapter(imageSliderAdapter);
                     binding.viewPager2.setCurrentItem(1, false);//默认显示第一张
                     //启动自动轮播（内部会先清掉上一次的定时任务）
@@ -341,7 +342,7 @@ public class HomeFragment extends Fragment {
                     binding.refreshBt.setVisibility(View.GONE);
                     //用gson反序列化获得对象，填充集合
                     ArticleList articleList = gson.fromJson(responseData, ArticleList.class);
-                    articles = articleList.data.datas;
+                    articles = articleList.getData().getDatas();
                     isLoadingMore = false;
                     myAdapter.updateArticles(articles);
                     showFinish();
@@ -425,10 +426,10 @@ public class HomeFragment extends Fragment {
                     binding.errorMessage.setVisibility(View.GONE);
                     binding.refreshBt.setVisibility(View.GONE);
                     //用gson反序列化获得对象，追加到列表尾部
-                    //注意：不能写成 articles = articleList.data.datas，那样 articles 就只剩新的一页，
+                    //注意：不能写成 articles = articleList.getData().getDatas()，那样 articles 就只剩新的一页，
                     //点击条目时 position 会和适配器里的真实列表对不上
                     ArticleList articleList = gson.fromJson(responseData, ArticleList.class);
-                    myAdapter.loadMore(articleList.data.datas);
+                    myAdapter.loadMore(articleList.getData().getDatas());
                     isLoadingMore = false;
                     showFinish();
                 });

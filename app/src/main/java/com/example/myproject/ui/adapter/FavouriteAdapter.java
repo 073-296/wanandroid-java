@@ -51,8 +51,9 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     public void onBindViewHolder(@NonNull FavouriteAdapter.FavouriteHolder holder, int position) {
         holder.title.setText(collectionItemList.get(position).getTitle());
         holder.collectButton.setText("取消收藏");
+        //收藏表里存的是收藏时的展示作者，空串（含历史数据）时兜底显示“佚名”
         String author = collectionItemList.get(position).getAuthor();
-        if (author.isEmpty()) {
+        if (author == null || author.isEmpty()) {
             holder.subTitle.setText("佚名");
         } else {
             holder.subTitle.setText(author);

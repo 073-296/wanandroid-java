@@ -44,8 +44,8 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         //使用Glide加载图片
         Glide
                 .with(context)//初始化glide请求，创建一个图片加载的上下文环境
-                .load(imageList.get(position).imagePath)
-                //.load(imageList.get(position % imageList.size()).imagePath)
+                .load(imageList.get(position).getImagePath())
+                //.load(imageList.get(position % imageList.size()).getImagePath())
                 .into(holder.imageView);//指定图片加载的目标ImageView
 
     }

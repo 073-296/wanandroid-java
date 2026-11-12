@@ -3,18 +3,50 @@ package com.example.myproject.entity.api;
 import java.util.List;
 
 public class ArticleList {
-    public ArticleListData data;
-    public int errorCode;
-    public String errorMsg;
+    private ArticleListData data;
+    private int errorCode;
+    private String errorMsg;
 
-    public static class ArticleListData{
-        public List<Article> datas;
-        public int curPage;
+    public ArticleListData getData() {
+        return data;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public static class ArticleListData {
+        private List<Article> datas;
+        private int curPage;
         //总页数
-        public int pageCount;
+        private int pageCount;
         //当前页的文章个数
-        public int size;
+        private int size;
         //总文章个数
-        public int total;
+        private int total;
+
+        public List<Article> getDatas() {
+            return datas;
+        }
+
+        public int getCurPage() {
+            return curPage;
+        }
+
+        public int getPageCount() {
+            return pageCount;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public int getTotal() {
+            return total;
+        }
     }
 }

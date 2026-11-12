@@ -64,8 +64,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof MyHolder) {
             MyHolder myHolder=(MyHolder) holder;
             myHolder.title.setText(articles.get(position).getTitle());
-            //判断author是否为空
-            String author = articles.get(position).getAuthor();
+            //author 为空时取 shareUser（分享者），两者都为空才显示“佚名”
+            String author = articles.get(position).getDisplayAuthor();
             if (author.isEmpty()) {
                 myHolder.subTitle.setText("佚名");
             } else {
