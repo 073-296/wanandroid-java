@@ -8,22 +8,23 @@
     tools:context=".ui.activity.ManageGroupActivity"
     android:fitsSystemWindows="true">
 
-    <TextView
-        android:id="@+id/group_manage_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/group_manage"
-        android:textSize="25dp"
-        android:padding="10dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/group_manage"
+        app:titleTextColor="?attr/colorOnSurface" />
 
     <EditText
         android:id="@+id/add_group_edit"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/group_manage_tv"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_group_iv"
         android:hint="@string/group_name"/>

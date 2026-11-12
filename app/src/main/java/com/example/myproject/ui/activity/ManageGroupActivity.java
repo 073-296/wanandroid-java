@@ -36,6 +36,10 @@ public class ManageGroupActivity extends AppCompatActivity {
         Intent intent = getIntent();
         long userId = intent.getLongExtra("userId", -1L);
         //Log.d("ppp", "onCreate: "+userId);
+
+        //toolbar 返回箭头：等价于系统返回（回到收藏页）
+        binding.toolbar.setNavigationOnClickListener(v ->
+                getOnBackPressedDispatcher().onBackPressed());
         repo = new MyRepository(ManageGroupActivity.this);
         repo.open();
         collectionGroupList = repo.getCollectionGroups(userId);

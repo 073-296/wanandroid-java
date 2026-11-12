@@ -39,6 +39,10 @@ public class ChangeAccountActivity extends AppCompatActivity {
         repo = new MyRepository(ChangeAccountActivity.this);
         repo.open();
 
+        //toolbar 返回箭头：等价于系统返回（取消本次切换，回"用户"页，登录态不变）
+        binding.toolbar.setNavigationOnClickListener(v ->
+                getOnBackPressedDispatcher().onBackPressed());
+
         //切换账号(不能登录当前账号的登录)
         binding.changeAccountBt.setOnClickListener(new View.OnClickListener() {
             @Override
