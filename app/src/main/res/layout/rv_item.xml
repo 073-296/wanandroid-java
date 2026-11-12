@@ -24,6 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
         android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -31,6 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/author"
+        android:ellipsize="end"
         android:textSize="19dp"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
         app:layout_constraintStart_toStartOf="@+id/title_text"
