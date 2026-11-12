@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="10dp"
-    android:orientation="vertical">
+    android:paddingVertical="10dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -19,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/mainTitle"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
@@ -33,7 +32,8 @@
         android:layout_height="wrap_content"
         android:text="@string/author"
         android:ellipsize="end"
-        android:textSize="19dp"
+        android:maxLines="1"
+        android:textSize="19sp"
         app:layout_constraintEnd_toStartOf="@+id/collect_button"
         app:layout_constraintStart_toStartOf="@+id/title_text"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
