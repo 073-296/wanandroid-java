@@ -21,7 +21,6 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding=ActivityWebViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //setContentView(binding.getRoot());
 
         //在app中打开网址
         WebView webView=binding.webView;

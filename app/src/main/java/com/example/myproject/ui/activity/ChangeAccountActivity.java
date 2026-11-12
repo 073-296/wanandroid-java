@@ -3,7 +3,6 @@ package com.example.myproject.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,9 +31,6 @@ public class ChangeAccountActivity extends AppCompatActivity {
         long userId = intent.getLongExtra("userId", -1L);
         String username = intent.getStringExtra("username");
         String password = intent.getStringExtra("password");
-        //Log.d("iii", "onCreate: "+userId);
-        //Log.d("iii", "onCreate: "+username);
-        //Log.d("iii", "onCreate: "+password);
 
         repo = new MyRepository(ChangeAccountActivity.this);
         repo.open();
@@ -58,7 +54,6 @@ public class ChangeAccountActivity extends AppCompatActivity {
                         if (user != null) {//该账号存在
                             String oUsername = user.getUsername();
                             String oPassword = user.getPassword();
-                            Log.d("aaa", "onClick: "+oUsername+"and"+oPassword);
                             //判断密码是否一致
                             if (iUsername.equals(oUsername) && oPassword.equals(iPassword)) {
                                 //一致

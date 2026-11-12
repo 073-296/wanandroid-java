@@ -6,7 +6,6 @@ import android.content.MutableContextWrapper;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.myproject.db.MyDatabaseHelper;
 import com.example.myproject.entity.db.CollectionGroup;
@@ -233,8 +232,6 @@ public class MyRepository {
         database.delete(MyDatabaseHelper.TABLE_GROUPS,
                 MyDatabaseHelper.COLUMN_GROUP_USER_ID + "=? and " + MyDatabaseHelper.COLUMN_GROUP_ID + "=?",
                 new String[]{String.valueOf(userId), String.valueOf(groupId)});
-
-        //return getCollectionGroups(userId);
     }
 
     //修改分组名
@@ -422,7 +419,6 @@ public class MyRepository {
             int index = cursor.getColumnIndex("count");
             count = cursor.getInt(index);
         }
-        Log.d("ppp", "judgeExits: " + count);
         cursor.close();
         if (count != 0) {
             //有，返回true

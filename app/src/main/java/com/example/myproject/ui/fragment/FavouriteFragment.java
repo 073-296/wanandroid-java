@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myproject.R;
@@ -29,7 +27,6 @@ import com.example.myproject.ui.activity.ManageGroupActivity;
 import com.example.myproject.ui.activity.WebViewActivity;
 import com.example.myproject.ui.adapter.FavouriteAdapter;
 import com.example.myproject.ui.adapter.ShowGroupNameAdapter;
-import com.example.myproject.util.ToastUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
@@ -81,7 +78,6 @@ public class FavouriteFragment extends Fragment {
                 //点击后在程序中打开链接
                 String link = list.get(position).getLink();
                 startActivity(new Intent(requireActivity(), WebViewActivity.class).putExtra("Link", link));
-                //Log.d("yyy", "onClick: " + link);
             }
         });
 
@@ -101,7 +97,6 @@ public class FavouriteFragment extends Fragment {
         favouriteAdapter.setLongClickListener(new FavouriteAdapter.LongClickListener() {
             @Override
             public void onClick(int itemPosition) {
-                //Toast.makeText(requireActivity(), itemPosition + "", Toast.LENGTH_SHORT).show();
                 AddToOtherGroupBinding binding = AddToOtherGroupBinding.inflate(getLayoutInflater());
                 BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
                 dialog.setContentView(binding.getRoot());
@@ -149,13 +144,11 @@ public class FavouriteFragment extends Fragment {
                 int choose = item.getItemId();
                 if (choose == R.id.favourites_in_group) {
                     //弹出分组(切换)
-                    //ToastUtil.show(requireActivity(),"hello");
                     ShowGroupBinding showGroupBinding = ShowGroupBinding.inflate(getLayoutInflater());
                     BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
                     dialog.setContentView(showGroupBinding.getRoot());
 
                     groupList = repo.getCollectionGroups(userId);
-                    //Log.d("555", "onMenuItemClick: "+groupList.size());
                     ShowGroupNameAdapter adapter = new ShowGroupNameAdapter(groupList);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
                     showGroupBinding.showGroupRv.setAdapter(adapter);
@@ -198,7 +191,6 @@ public class FavouriteFragment extends Fragment {
 
                 } else if (choose == R.id.edit_groups) {
                     //跳转到编辑分组的activity
-                    //Toast.makeText(requireActivity(), "跳转到分组activity", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(requireActivity(), ManageGroupActivity.class);
                     intent.putExtra("userId", userId);
                     startActivity(intent);
@@ -213,10 +205,7 @@ public class FavouriteFragment extends Fragment {
                     dialogBinding.mixText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(requireActivity(), "升序", Toast.LENGTH_SHORT).show();
                             list = repo.sortByCollectionTime(userId, groupId, MyRepository.SORT_ASC);
-                            Log.d("mmm", "onClick: " + groupId);
-                            Log.d("mmm", "onClick: " + list.size());
                             favouriteAdapter.updateArticles(list);
                             dialog.dismiss();
                         }
@@ -226,7 +215,6 @@ public class FavouriteFragment extends Fragment {
                     dialogBinding.orderText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(requireActivity(), "降序", Toast.LENGTH_SHORT).show();
                             list = repo.sortByCollectionTime(userId, groupId, MyRepository.SORT_DESC);
                             favouriteAdapter.updateArticles(list);
                             dialog.dismiss();
@@ -237,7 +225,6 @@ public class FavouriteFragment extends Fragment {
                     dialogBinding.cancelText.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(requireActivity(), "取消", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
                     });

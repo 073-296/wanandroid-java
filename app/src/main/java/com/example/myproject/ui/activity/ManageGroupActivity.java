@@ -3,7 +3,6 @@ package com.example.myproject.ui.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,7 +16,6 @@ import com.example.myproject.db.MyDatabaseHelper;
 import com.example.myproject.entity.db.CollectionGroup;
 import com.example.myproject.repo.MyRepository;
 import com.example.myproject.ui.adapter.ManageGroupAdapter;
-import com.example.myproject.util.ToastUtil;
 
 import java.util.List;
 
@@ -35,7 +33,6 @@ public class ManageGroupActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         long userId = intent.getLongExtra("userId", -1L);
-        //Log.d("ppp", "onCreate: "+userId);
 
         //toolbar 返回箭头：等价于系统返回（回到收藏页）
         binding.toolbar.setNavigationOnClickListener(v ->
@@ -43,7 +40,6 @@ public class ManageGroupActivity extends AppCompatActivity {
         repo = new MyRepository(ManageGroupActivity.this);
         repo.open();
         collectionGroupList = repo.getCollectionGroups(userId);
-        Log.d("zzz", "onCreate: " + collectionGroupList.size());
         ManageGroupAdapter adapter = new ManageGroupAdapter(collectionGroupList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ManageGroupActivity.this);
         binding.groupRv.setAdapter(adapter);
@@ -57,7 +53,6 @@ public class ManageGroupActivity extends AppCompatActivity {
 
                 if (!groupName.isEmpty()) {
                     long groupId = repo.addGroup(userId, groupName);
-                    //Log.d("ddd", "onClick: " + groupId);
                     if (groupId != -1) {
                         adapter.addGroup(new CollectionGroup(userId, groupId, groupName));
                         binding.addGroupEdit.setText("");
@@ -80,11 +75,8 @@ public class ManageGroupActivity extends AppCompatActivity {
                         .setMessage("是否删除")
                         .setPositiveButton("确定", (dialog, which) -> {
                                     long id = adapter.getItem(position).getId();
-                                    //Log.d("vvv", "onClick: " + id + " and " + collectionGroupList.get(position).getGroupName());
-                                    //Log.d("ccc", "onClick: " + position);
                                     adapter.removeGroup(position);
                                     repo.deleteGroup(userId, id);
-                                    //Log.d("bbb", "onClick: " + collectionGroupList.size());
                                 }
                         )
                         .setNegativeButton("取消", (dialog, which) -> {
@@ -100,13 +92,8 @@ public class ManageGroupActivity extends AppCompatActivity {
                 long id = collectionGroupList.get(position).getId();
                 long userId = collectionGroupList.get(position).getUserId();
                 boolean exits = repo.updateGroupName(new CollectionGroup(id, userId, editedGroupName));
-                /*Log.d("lll", "onClick: " + userId);
-                Log.d("lll", "onClick: " + id);
-                Log.d("lll", "onClick: " + editedGroupName);
-                Log.d("lll", "onClick: " + exits);*/
                 if (exits) {
                     Toast.makeText(ManageGroupActivity.this, "该分组已存在", Toast.LENGTH_SHORT).show();
-                    //ToastUtil.show(ManageGroupActivity.this,"该分组已存在");
                 }
                 return exits;
             }

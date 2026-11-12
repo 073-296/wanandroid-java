@@ -107,17 +107,12 @@ public class HomeFragment extends Fragment {
 
         repo = new MyRepository(requireActivity());
         repo.open();
-        //Log.d("HomeFragment111", "onCreate: " + repo.judgeExits(MyDatabaseHelper.TABLE_USERS, null, null));
 
         //获取适配器对象
         myAdapter = new MyAdapter(articles);
-        //myAdapter.updateArticles(articles);
-        //获取RecyclerView
-
 
         //创建布局管理器对象
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-        //binding.firstRecyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
 
         //设置适配器
         binding.firstRecyclerView.setAdapter(myAdapter);
@@ -163,7 +158,6 @@ public class HomeFragment extends Fragment {
 
 
         viewPager2 = binding.viewPager2;
-        //viewPager2.setPageTransformer(new CompositePageTransformer());
         //只在创建视图时注册一次，避免每次刷新/重新请求都多注册一个回调
         viewPager2.registerOnPageChangeCallback(pageChangeCallback);
 
@@ -180,7 +174,6 @@ public class HomeFragment extends Fragment {
 
         //点击收藏按钮后将所需信息存入表中
         myAdapter.setOnItemButtonClickListener(position -> {
-            //Toast.makeText(requireActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
             //获取按钮被点击的时间
             long collectTime = System.currentTimeMillis();
 
@@ -191,7 +184,6 @@ public class HomeFragment extends Fragment {
                 Bundle arguments = getArguments();
                 long userId = arguments.getLong("userId");
                 item.setUserId(userId);
-                //Log.d("ttt", "onCreateView: "+userId);
             }
             item.setTitle(article.getTitle());
             item.setAuthor(article.getAuthor());
@@ -206,7 +198,6 @@ public class HomeFragment extends Fragment {
             }
             //添加进收藏表中
             long num = repo.addCollectionItem(item);
-            //Log.d("num", "onCreateView: "+num);
             if (num != -1) {
                 Toast.makeText(requireActivity(), "收藏成功", Toast.LENGTH_SHORT).show();
             } else {

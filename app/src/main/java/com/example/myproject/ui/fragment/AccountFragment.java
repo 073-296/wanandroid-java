@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,7 +99,6 @@ public class AccountFragment extends Fragment {
                 intent.putExtra("userId", userId);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);
-                //Log.d("yyy", "onClick: " + username);
                 startActivity(intent);
             }
         });

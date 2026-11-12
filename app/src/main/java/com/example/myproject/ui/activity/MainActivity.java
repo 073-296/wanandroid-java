@@ -3,7 +3,6 @@ package com.example.myproject.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 String password = passwordEt.getText().toString();
                 //保存进用户表中，返回
                 long userId = repo.register(username, password);
-                Log.e("MainActivity_userId", String.valueOf(userId) );
                 if (userId != -1) {
                     //注册成功并进行跳转
                     saveAndTurn(userId, username, password);
@@ -109,102 +107,3 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 }
-
-
-/*//创建表
-        MyDatabaseHelper UserDbHelper = new MyDatabaseHelper(this, "UserMessage.db", null, 2);
-        MyDatabaseHelper ArticleDbHelper = new MyDatabaseHelper(this, "ArticleMessage.db", null, 2);
-        MyDatabaseHelper GroupDbHelper=new MyDatabaseHelper(this,"Group.db",null,2);
-        //创建库
-        SQLiteDatabase UserDb = UserDbHelper.getWritableDatabase();
-        SQLiteDatabase ArticleDb = ArticleDbHelper.getWritableDatabase();
-        SQLiteDatabase GroupDb=GroupDbHelper.getWritableDatabase();
-
-
-        //登录
-        loginBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String iUsername = usernameEt.getText().toString();
-                String iPassword = passwordEt.getText().toString();
-                boolean loginSuccess = false;
-
-                //和表中的数据进行比对是否一致
-                Cursor cursor = UserDb.query("users_table", null, null, null, null, null, null);
-                while (cursor.moveToNext()) {
-                    int index = cursor.getColumnIndex("username");
-                    String username = cursor.getString(index);
-                    index = cursor.getColumnIndex("password");
-                    String password = cursor.getString(index);
-                    if (username.equals(iUsername) && password.equals(iPassword)) {
-                        //关闭光标
-                        cursor.close();
-                        loginSuccess=true;
-                        //保留这次的账号，下次直接登录该账号SharedPreferences
-                        SharedPreferences.Editor edit = spf.edit();
-                        edit.putString("username", iUsername);
-                        edit.putString("password", iPassword);
-                        edit.apply();
-                        //登录成功，跳转到首页(传递用户名以及密码)
-                        Intent intent = new Intent(MainActivity.this, FirstActivity.class);
-                        intent.putExtra("username", username);
-                        intent.putExtra("password", password);
-                        startActivity(intent);
-                        //销毁当前活动
-                        finish();
-                        //跳出循环
-                        break;
-                    }
-                }
-                //关闭光标
-                cursor.close();
-                //登录失败，进行提示
-                if (!loginSuccess) {
-                    Toast.makeText(MainActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        //注册
-        registerBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String iUsername = usernameEt.getText().toString();
-                String iPassword = passwordEt.getText().toString();
-                boolean usernameExists=false;
-
-                //和表中的用户名比对是否重复
-                Cursor cursor = UserDb.query("users_table", null, null, null, null, null, null);
-
-                while (cursor.moveToNext()) {
-                    int index = cursor.getColumnIndex("username");
-                    String username = cursor.getString(index);
-                    if (username.equals(iUsername)) {
-                        usernameExists=true;
-                        break;
-                    }
-                }
-                //关闭光标
-                cursor.close();
-
-                if(usernameExists){
-                    //用户名已存在，进行提示
-                    Toast.makeText(MainActivity.this, "该用户名已存在", Toast.LENGTH_SHORT).show();
-                }else {
-                    //添加用户名
-                    ContentValues values = new ContentValues();
-                    values.put("username", iUsername);
-                    values.put("password", iPassword);
-                    UserDb.insert("users_table", null, values);
-                    //提示注册成功
-                    Toast.makeText(MainActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                    //登录成功，跳转到首页(传递用户名以及密码)
-                    Intent intent = new Intent(MainActivity.this, FirstActivity.class);
-                    intent.putExtra("username", username);
-                    intent.putExtra("password", password);
-                    startActivity(intent);
-                    //销毁当前活动
-                    finish();
-                }
-            }
-        });*/
