@@ -41,4 +41,5 @@
     <string name="error">网络异常</string>
     <string name="show_item">show_item</string>
     <string name="loadingMore">加载更多...</string>
+    <string name="login_in_this_account">登录该账户</string>
 </resources>
