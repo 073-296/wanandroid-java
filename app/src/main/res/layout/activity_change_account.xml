@@ -7,7 +7,7 @@
     android:background="?attr/colorSurface"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".ui.activity.ChangeAccountActivity">
+    tools:context=".ui.account.ChangeAccountActivity">
 
     <!-- 返回箭头：点击等价于系统返回，回到"用户"页（取消本次切换，登录态不变） -->
     <com.google.android.material.appbar.MaterialToolbar
