@@ -24,6 +24,12 @@ local.properties
 *.ap_
 *.dex
 
+# ---------- 签名文件 ----------
+# 签名私钥和密码绝对不能进仓库：泄露后别人就能冒充你发布"升级包"
+*.jks
+*.keystore
+keystore.properties
+
 # ---------- Native ----------
 .externalNativeBuild/
 .cxx/
