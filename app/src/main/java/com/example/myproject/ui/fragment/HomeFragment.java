@@ -54,12 +54,17 @@ public class HomeFragment extends Fragment {
     private MyRepository repo;
     private ViewPager2 viewPager2;
     private ImageSliderAdapter imageSliderAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private Gson gson;
     private int pageCount = 0;
     private int bannerCount = 0;
     /** 是否正在加载下一页，防止滚到底部时重复请求同一页 */
     private boolean isLoadingMore = false;
+    /**
+     * 请求代数：每发起一次“拉第 0 页刷新”就 +1。
+     * 排队中的分页响应回来时对比这个值，不一致说明刷新已发生，这条旧响应直接丢弃，
+     * 避免旧的第 N 页被追加到刷新后的新列表尾部造成重复/错位。
+     */
+    private int requestGeneration = 0;
 
     //轮播只保留一个 Handler + Runnable，视图销毁时必须移除，否则每切换一次 Tab 就多一个循环在后台跑
     private final Handler bannerHandler = new Handler(Looper.getMainLooper());
@@ -128,8 +133,7 @@ public class HomeFragment extends Fragment {
         });
 
         //下拉刷新
-        swipeRefreshLayout = binding.swiperRefreshLayout;
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.swiperRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
@@ -327,17 +331,27 @@ public class HomeFragment extends Fragment {
     private void getDataRequest() {
         //重新拉第一页时，分页计数要归零，否则下拉刷新后会从第 N 页接着加载，中间的文章就丢了
         pageCount = 0;
+        //刷新动作让代数 +1，之后回来的旧分页响应都会因代数不匹配被丢弃
+        final int generation = ++requestGeneration;
         HttpUtil.sendOkHttpRequest("https://www.wanandroid.com/article/list/0/json", new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
-                runOnUiIfAlive(HomeFragment.this::showError);
+                runOnUiIfAlive(() -> {
+                    //失败也要停掉下拉转圈，并提示用户刷新没成功
+                    binding.swiperRefreshLayout.setRefreshing(false);
+                    showError();
+                });
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 responseData = response.body().string();
                 runOnUiIfAlive(() -> {
+                    //响应回来前用户又刷新了一次，这条是过期数据，丢弃
+                    if (generation != requestGeneration) {
+                        return;
+                    }
                     binding.errorMessage.setVisibility(View.GONE);
                     binding.refreshBt.setVisibility(View.GONE);
                     //用gson反序列化获得对象，填充集合
@@ -345,6 +359,10 @@ public class HomeFragment extends Fragment {
                     articles = articleList.getData().getDatas();
                     isLoadingMore = false;
                     myAdapter.updateArticles(articles);
+                    //刷新后回到列表顶部，让用户从最新的文章开始看
+                    binding.firstRecyclerView.scrollToPosition(0);
+                    //整体替换完成，此时才停掉下拉转圈
+                    binding.swiperRefreshLayout.setRefreshing(false);
                     showFinish();
                 });
             }
@@ -378,27 +396,18 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * 下拉刷新：重新拉第 0 页并整体替换列表（不是把新数据插到最前面，
+     * 那样已加载的文章会大面积重复，分页进度也会和服务器错位）。
+     * 转圈动画由 getDataRequest 的回调负责关闭，不做人为延时。
+     */
     public void refreshData() {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (!isAdded() || binding == null) {
-                return;
-            }
-            showLoading();
-            getDataRequest();
-            //停止刷新动画
-            swipeRefreshLayout.setRefreshing(false);
-        }, 2000);
+        getDataRequest();
     }
 
     public void showFinish() {
         binding.loadingLayout.setVisibility(View.GONE);
         binding.swiperRefreshLayout.setVisibility(View.VISIBLE);
-        binding.errorLayout.setVisibility(View.GONE);
-    }
-
-    public void showLoading() {
-        binding.loadingLayout.setVisibility(View.VISIBLE);
-        binding.swiperRefreshLayout.setVisibility(View.GONE);
         binding.errorLayout.setVisibility(View.GONE);
     }
 
@@ -409,13 +418,18 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadNextPage(int page) {
+        //记住发起请求时的代数；中途若发生下拉刷新，这条响应就是过期的
+        final int generation = requestGeneration;
         HttpUtil.sendOkHttpRequest("https://www.wanandroid.com/article/list/" + page + "/json", new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
                 runOnUiIfAlive(() -> {
                     isLoadingMore = false;
-                    showError();
+                    //刷新已发生就不再弹整页错误，列表里还是刷新后的新数据
+                    if (generation == requestGeneration) {
+                        showError();
+                    }
                 });
             }
 
@@ -423,6 +437,11 @@ public class HomeFragment extends Fragment {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 responseData = response.body().string();
                 runOnUiIfAlive(() -> {
+                    isLoadingMore = false;
+                    //请求期间用户下拉刷新过：这条旧页数据不能再追加，否则会重复/错位
+                    if (generation != requestGeneration) {
+                        return;
+                    }
                     binding.errorMessage.setVisibility(View.GONE);
                     binding.refreshBt.setVisibility(View.GONE);
                     //用gson反序列化获得对象，追加到列表尾部
@@ -430,7 +449,6 @@ public class HomeFragment extends Fragment {
                     //点击条目时 position 会和适配器里的真实列表对不上
                     ArticleList articleList = gson.fromJson(responseData, ArticleList.class);
                     myAdapter.loadMore(articleList.getData().getDatas());
-                    isLoadingMore = false;
                     showFinish();
                 });
             }
