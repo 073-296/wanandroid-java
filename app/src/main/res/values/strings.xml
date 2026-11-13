@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyProject</string>
+    <string name="app_name">玩Android</string>
     <string name="username_hint">请输入用户名</string>
     <string name="password_hint">请输入密码</string>
     <string name="login_text">登录</string>
