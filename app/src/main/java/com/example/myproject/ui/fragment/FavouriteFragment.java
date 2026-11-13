@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,8 +65,6 @@ public class FavouriteFragment extends Fragment {
         favouriteAdapter = new FavouriteAdapter(list);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-
-        binding.favouriteRecyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
 
         binding.favouriteRecyclerView.setAdapter(favouriteAdapter);
         binding.favouriteRecyclerView.setLayoutManager(layoutManager);
