@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myproject.R;
 import com.example.myproject.repo.MyRepository;
+import com.example.myproject.util.ToastUtil;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences spf;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     //注册成功并进行跳转
                     saveAndTurn(userId, username, password);
                 } else {
-                    Toast.makeText(MainActivity.this, "该用户名已存在", Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(MainActivity.this, "该用户名已存在");
                 }
             }
         });
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 if (userId != -1) {
                     saveAndTurn(userId, username, password);
                 }else {
-                    Toast.makeText(MainActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(MainActivity.this, "账号或密码错误");
                 }
             }
         });

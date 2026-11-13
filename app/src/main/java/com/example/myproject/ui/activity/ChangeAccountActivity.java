@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import com.example.myproject.R;
 import com.example.myproject.databinding.ActivityChangeAccountBinding;
 import com.example.myproject.entity.db.User;
 import com.example.myproject.repo.MyRepository;
+import com.example.myproject.util.ToastUtil;
 
 public class ChangeAccountActivity extends AppCompatActivity {
     private ActivityChangeAccountBinding binding;
@@ -46,7 +46,7 @@ public class ChangeAccountActivity extends AppCompatActivity {
                 String iUsername = binding.usernameEt.getText().toString();
                 String iPassword = binding.passwordEt.getText().toString();
                 if (iUsername.isEmpty() || iPassword.isEmpty()) {//账号或密码为空
-                    Toast.makeText(ChangeAccountActivity.this, "账号和密码不能为空", Toast.LENGTH_SHORT).show();
+                    ToastUtil.show(ChangeAccountActivity.this, "账号和密码不能为空");
                 } else {
                     if (!iUsername.equals(username)) {//不是当前账号
 
@@ -61,18 +61,18 @@ public class ChangeAccountActivity extends AppCompatActivity {
                                 saveAndTurn(oUserId, oUsername, oPassword);
                             } else {
                                 //密码有误
-                                Toast.makeText(ChangeAccountActivity.this, "账号或密码错误(密码有误)", Toast.LENGTH_SHORT).show();
+                                ToastUtil.show(ChangeAccountActivity.this, "账号或密码错误(密码有误)");
                             }
                         } else {
                             //账号不存在
-                            Toast.makeText(ChangeAccountActivity.this, "账号或密码错误(账号不存在)", Toast.LENGTH_SHORT).show();
+                            ToastUtil.show(ChangeAccountActivity.this, "账号或密码错误(账号不存在)");
                         }
 
 
 
                     } else {
                         //是当前账号
-                        Toast.makeText(ChangeAccountActivity.this, "该账号为当前登录账号", Toast.LENGTH_SHORT).show();
+                        ToastUtil.show(ChangeAccountActivity.this, "该账号为当前登录账号");
                     }
                 }
             }

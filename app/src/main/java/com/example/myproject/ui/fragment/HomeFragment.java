@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.myproject.R;
 import com.example.myproject.db.MyDatabaseHelper;
@@ -25,6 +24,7 @@ import com.example.myproject.entity.db.CollectionItem;
 import com.example.myproject.repo.MyRepository;
 import com.example.myproject.ui.adapter.ImageSliderAdapter;
 import com.example.myproject.ui.adapter.MyAdapter;
+import com.example.myproject.util.ToastUtil;
 import com.example.myproject.databinding.FragmentHomeBinding;
 import com.example.myproject.entity.api.Article;
 import com.example.myproject.entity.api.ArticleList;
@@ -194,15 +194,15 @@ public class HomeFragment extends Fragment {
             if (repo.judgeExits(MyDatabaseHelper.TABLE_COLLECTIONS,
                     "user_id =? and link=?",
                     new String[]{String.valueOf(item.getUserId()), item.getLink()})) {
-                Toast.makeText(requireActivity(), "已经收藏过了", Toast.LENGTH_SHORT).show();
+                ToastUtil.show(requireActivity(), "已经收藏过了");
                 return;
             }
             //添加进收藏表中
             long num = repo.addCollectionItem(item);
             if (num != -1) {
-                Toast.makeText(requireActivity(), "收藏成功", Toast.LENGTH_SHORT).show();
+                ToastUtil.show(requireActivity(), "收藏成功");
             } else {
-                Toast.makeText(requireActivity(), "未知错误", Toast.LENGTH_SHORT).show();
+                ToastUtil.show(requireActivity(), "未知错误");
             }
         });
 

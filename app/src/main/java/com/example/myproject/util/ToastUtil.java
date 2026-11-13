@@ -5,9 +5,11 @@ import android.widget.Toast;
 
 public class ToastUtil {
     private static Toast toast;
-    public static Toast getInstance(Context context){
+    private static Toast getInstance(Context context){
         if (toast==null){
-            toast=Toast.makeText(context,"",Toast.LENGTH_SHORT);
+            //静态 Toast 会被类一直持有，必须用 ApplicationContext 创建，
+            //否则会长时间引用第一次调用时的 Activity，造成泄漏
+            toast=Toast.makeText(context.getApplicationContext(),"",Toast.LENGTH_SHORT);
         }
         return toast;
     }

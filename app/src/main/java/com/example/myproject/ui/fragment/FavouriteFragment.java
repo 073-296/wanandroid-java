@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.myproject.R;
 import com.example.myproject.databinding.AddToOtherGroupBinding;
@@ -27,6 +26,7 @@ import com.example.myproject.ui.activity.ManageGroupActivity;
 import com.example.myproject.ui.activity.WebViewActivity;
 import com.example.myproject.ui.adapter.FavouriteAdapter;
 import com.example.myproject.ui.adapter.ShowGroupNameAdapter;
+import com.example.myproject.util.ToastUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
@@ -121,7 +121,7 @@ public class FavouriteFragment extends Fragment {
                         collectionItem.setGroupId(collectionGroup.getId());
                         collectionItem.setGroupName(collectionGroup.getGroupName());
                         repo.addItemInGroup(collectionItem);
-                        Toast.makeText(requireActivity(), "已被添加到分组" + collectionItem.getGroupName(), Toast.LENGTH_SHORT).show();
+                        ToastUtil.show(requireActivity(), "已被添加到分组" + collectionItem.getGroupName());
                         dialog.dismiss();
                     }
                 });

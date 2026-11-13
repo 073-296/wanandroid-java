@@ -17,13 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.myproject.R;
 import com.example.myproject.databinding.FragmentAccountBinding;
 import com.example.myproject.repo.MyRepository;
 import com.example.myproject.ui.activity.ChangeAccountActivity;
 import com.example.myproject.ui.activity.MainActivity;
+import com.example.myproject.util.ToastUtil;
 
 
 public class AccountFragment extends Fragment {
@@ -72,7 +72,7 @@ public class AccountFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 String newPassword = input.getText().toString();
                                 if (newPassword.isEmpty()) {
-                                    Toast.makeText(requireActivity(), "密码不可为空", Toast.LENGTH_SHORT).show();
+                                    ToastUtil.show(requireActivity(), "密码不可为空");
                                 } else {
                                     repo.updatePassword(userId, newPassword);
                                 }
