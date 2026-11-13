@@ -385,17 +385,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void showErrorMessageAndButton() {
-        binding.errorMessage.setVisibility(View.VISIBLE);
-        binding.refreshBt.setVisibility(View.VISIBLE);
-        binding.refreshBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initial();
-            }
-        });
-    }
-
     /**
      * 下拉刷新：重新拉第 0 页并整体替换列表（不是把新数据插到最前面，
      * 那样已加载的文章会大面积重复，分页进度也会和服务器错位）。
@@ -415,6 +404,10 @@ public class HomeFragment extends Fragment {
         binding.loadingLayout.setVisibility(View.GONE);
         binding.swiperRefreshLayout.setVisibility(View.GONE);
         binding.errorLayout.setVisibility(View.VISIBLE);
+        //上次成功时成功回调把错误页的文字和按钮藏掉了（errorMessage/refreshBt 设为 GONE），
+        //只恢复容器不恢复子控件，错误页就会变成一片看不见内容的空白
+        binding.errorMessage.setVisibility(View.VISIBLE);
+        binding.refreshBt.setVisibility(View.VISIBLE);
     }
 
     private void loadNextPage(int page) {
