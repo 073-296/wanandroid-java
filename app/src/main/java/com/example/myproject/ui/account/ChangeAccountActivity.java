@@ -3,18 +3,12 @@ package com.example.myproject.ui.account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.myproject.R;
-import com.example.myproject.databinding.ActivityChangeAccountBinding;
 import com.example.myproject.data.model.db.User;
 import com.example.myproject.data.repository.MyRepository;
+import com.example.myproject.databinding.ActivityChangeAccountBinding;
 import com.example.myproject.ui.home.HomeActivity;
 import com.example.myproject.util.ToastUtil;
 
@@ -41,56 +35,50 @@ public class ChangeAccountActivity extends AppCompatActivity {
                 getOnBackPressedDispatcher().onBackPressed());
 
         //切换账号(不能登录当前账号的登录)
-        binding.changeAccountBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String iUsername = binding.usernameEt.getText().toString();
-                String iPassword = binding.passwordEt.getText().toString();
-                if (iUsername.isEmpty() || iPassword.isEmpty()) {//账号或密码为空
-                    ToastUtil.show(ChangeAccountActivity.this, "账号和密码不能为空");
-                } else {
-                    if (!iUsername.equals(username)) {//不是当前账号
+        binding.changeAccountBt.setOnClickListener(v -> {
+            String iUsername = binding.usernameEt.getText().toString();
+            String iPassword = binding.passwordEt.getText().toString();
+            if (iUsername.isEmpty() || iPassword.isEmpty()) {//账号或密码为空
+                ToastUtil.show(ChangeAccountActivity.this, "账号和密码不能为空");
+            } else {
+                if (!iUsername.equals(username)) {//不是当前账号
 
-                        User user = repo.getUserByUsername(iUsername);
-                        if (user != null) {//该账号存在
-                            String oUsername = user.getUsername();
-                            String oPassword = user.getPassword();
-                            //判断密码是否一致
-                            if (iUsername.equals(oUsername) && oPassword.equals(iPassword)) {
-                                //一致
-                                long oUserId = user.getId();
-                                saveAndTurn(oUserId, oUsername, oPassword);
-                            } else {
-                                //密码有误
-                                ToastUtil.show(ChangeAccountActivity.this, "账号或密码错误(密码有误)");
-                            }
+                    User user = repo.getUserByUsername(iUsername);
+                    if (user != null) {//该账号存在
+                        String oUsername = user.getUsername();
+                        String oPassword = user.getPassword();
+                        //判断密码是否一致
+                        if (iUsername.equals(oUsername) && oPassword.equals(iPassword)) {
+                            //一致
+                            long oUserId = user.getId();
+                            saveAndTurn(oUserId, oUsername, oPassword);
                         } else {
-                            //账号不存在
-                            ToastUtil.show(ChangeAccountActivity.this, "账号或密码错误(账号不存在)");
+                            //密码有误
+                            ToastUtil.show(ChangeAccountActivity.this, "账号或密码错误(密码有误)");
                         }
-
-
-
                     } else {
-                        //是当前账号
-                        ToastUtil.show(ChangeAccountActivity.this, "该账号为当前登录账号");
+                        //账号不存在
+                        ToastUtil.show(ChangeAccountActivity.this, "账号或密码错误(账号不存在)");
                     }
+
+
+
+                } else {
+                    //是当前账号
+                    ToastUtil.show(ChangeAccountActivity.this, "该账号为当前登录账号");
                 }
             }
         });
 
         //注册
-        binding.registerBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String iUsername = binding.usernameEt.getText().toString();
-                String iPassword = binding.passwordEt.getText().toString();
-                User user = repo.getUserByUsername(iUsername);
-                if (user == null) {
-                    //用户不存在，进行注册
-                    long newUserId = repo.register(iUsername, iPassword);
-                    saveAndTurn(newUserId, iUsername, iPassword);
-                }
+        binding.registerBt.setOnClickListener(v -> {
+            String iUsername = binding.usernameEt.getText().toString();
+            String iPassword = binding.passwordEt.getText().toString();
+            User user = repo.getUserByUsername(iUsername);
+            if (user == null) {
+                //用户不存在，进行注册
+                long newUserId = repo.register(iUsername, iPassword);
+                saveAndTurn(newUserId, iUsername, iPassword);
             }
         });
     }

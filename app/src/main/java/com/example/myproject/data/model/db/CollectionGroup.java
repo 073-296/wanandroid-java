@@ -38,7 +38,3 @@ public class CollectionGroup {
         this.groupName = groupName;
     }
 }
-
-//viewbinding
-//bottomnavigationview + fragment
-//回调的详解

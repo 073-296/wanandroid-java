@@ -2,25 +2,23 @@ package com.example.myproject.ui.favourite;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.myproject.R;
+import com.example.myproject.data.model.db.CollectionGroup;
+import com.example.myproject.data.model.db.CollectionItem;
+import com.example.myproject.data.repository.MyRepository;
 import com.example.myproject.databinding.AddToOtherGroupBinding;
 import com.example.myproject.databinding.BottomSheetSortDialogBinding;
 import com.example.myproject.databinding.FragmentFavouriteBinding;
 import com.example.myproject.databinding.ShowGroupBinding;
-import com.example.myproject.data.model.db.CollectionGroup;
-import com.example.myproject.data.model.db.CollectionItem;
-import com.example.myproject.data.repository.MyRepository;
 import com.example.myproject.ui.group.ManageGroupActivity;
 import com.example.myproject.ui.web.WebViewActivity;
 import com.example.myproject.util.ToastUtil;
@@ -67,167 +65,125 @@ public class FavouriteFragment extends Fragment {
         binding.favouriteRecyclerView.setAdapter(favouriteAdapter);
         binding.favouriteRecyclerView.setLayoutManager(layoutManager);
 
-        favouriteAdapter.setItemClickListener(new FavouriteAdapter.onItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                //点击后在程序中打开链接
-                String link = list.get(position).getLink();
-                startActivity(new Intent(requireActivity(), WebViewActivity.class).putExtra("Link", link));
-            }
+        favouriteAdapter.setItemClickListener(position -> {
+            //点击后在程序中打开链接
+            String link = list.get(position).getLink();
+            startActivity(new Intent(requireActivity(), WebViewActivity.class).putExtra("Link", link));
         });
 
-        favouriteAdapter.setButtonClickListener(new FavouriteAdapter.onItemButtonClickListener() {
-            @Override
-            public void onClick(int position) {
-                //再加上groupId参数，在MyRepository的方法中判断groupId是从总收藏中取消还是分组中取消收藏的
-                //点击后取消(总，分组)收藏
-                String link = list.get(position).getLink();
-                groupId = list.get(position).getGroupId();
-                list = repo.deleteCollectionItem(userId, groupId, link);
-                favouriteAdapter.updateArticles(list);
-            }
+        favouriteAdapter.setButtonClickListener(position -> {
+            //再加上groupId参数，在MyRepository的方法中判断groupId是从总收藏中取消还是分组中取消收藏的
+            //点击后取消(总，分组)收藏
+            String link = list.get(position).getLink();
+            groupId = list.get(position).getGroupId();
+            list = repo.deleteCollectionItem(userId, groupId, link);
+            favouriteAdapter.updateArticles(list);
         });
 
         //长按某个(总,分)组中的条目
-        favouriteAdapter.setLongClickListener(new FavouriteAdapter.LongClickListener() {
-            @Override
-            public void onClick(int itemPosition) {
-                AddToOtherGroupBinding binding = AddToOtherGroupBinding.inflate(getLayoutInflater());
-                BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
-                dialog.setContentView(binding.getRoot());
+        favouriteAdapter.setLongClickListener(itemPosition -> {
+            AddToOtherGroupBinding binding = AddToOtherGroupBinding.inflate(getLayoutInflater());
+            BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
+            dialog.setContentView(binding.getRoot());
 
-                groupList = repo.getCollectionGroups(userId);
-                ShowGroupNameAdapter adapter = new ShowGroupNameAdapter(groupList);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-                binding.addToGroupRv.setAdapter(adapter);
-                binding.addToGroupRv.setLayoutManager(layoutManager);
+            groupList = repo.getCollectionGroups(userId);
+            ShowGroupNameAdapter adapter = new ShowGroupNameAdapter(groupList);
+            RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(requireActivity());
+            binding.addToGroupRv.setAdapter(adapter);
+            binding.addToGroupRv.setLayoutManager(layoutManager1);
 
-                adapter.setGroupNameClickListener(new ShowGroupNameAdapter.GroupNameClickListener() {
-                    @Override
-                    public void onClick(int position) {
-                        //itemPosition:被长按的收藏条目
-                        //position:分组的编号
+            adapter.setGroupNameClickListener(position -> {
+                //itemPosition:被长按的收藏条目
+                //position:分组的编号
 
-                        //获取被长按的收藏条目
-                        CollectionItem collectionItem = list.get(itemPosition);
-                        //获取被点击的分组
-                        CollectionGroup collectionGroup = groupList.get(position);
-                        //添加到数据库
-                        collectionItem.setGroupId(collectionGroup.getId());
-                        collectionItem.setGroupName(collectionGroup.getGroupName());
-                        repo.addItemInGroup(collectionItem);
-                        ToastUtil.show(requireActivity(), "已被添加到分组" + collectionItem.getGroupName());
-                        dialog.dismiss();
-                    }
-                });
+                //获取被长按的收藏条目
+                CollectionItem collectionItem = list.get(itemPosition);
+                //获取被点击的分组
+                CollectionGroup collectionGroup = groupList.get(position);
+                //添加到数据库
+                collectionItem.setGroupId(collectionGroup.getId());
+                collectionItem.setGroupName(collectionGroup.getGroupName());
+                repo.addItemInGroup(collectionItem);
+                ToastUtil.show(requireActivity(), "已被添加到分组" + collectionItem.getGroupName());
+                dialog.dismiss();
+            });
 
-                binding.cancelTv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+            binding.cancelTv.setOnClickListener(v -> dialog.dismiss());
 
-                dialog.show();
-            }
+            dialog.show();
         });
 
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int choose = item.getItemId();
-                if (choose == R.id.favourites_in_group) {
-                    //弹出分组(切换)
-                    ShowGroupBinding showGroupBinding = ShowGroupBinding.inflate(getLayoutInflater());
-                    BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
-                    dialog.setContentView(showGroupBinding.getRoot());
+        toolbar.setOnMenuItemClickListener(item -> {
+            int choose = item.getItemId();
+            if (choose == R.id.favourites_in_group) {
+                //弹出分组(切换)
+                ShowGroupBinding showGroupBinding = ShowGroupBinding.inflate(getLayoutInflater());
+                BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
+                dialog.setContentView(showGroupBinding.getRoot());
 
-                    groupList = repo.getCollectionGroups(userId);
-                    ShowGroupNameAdapter adapter = new ShowGroupNameAdapter(groupList);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-                    showGroupBinding.showGroupRv.setAdapter(adapter);
-                    showGroupBinding.showGroupRv.setLayoutManager(layoutManager);
+                groupList = repo.getCollectionGroups(userId);
+                ShowGroupNameAdapter adapter = new ShowGroupNameAdapter(groupList);
+                RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(requireActivity());
+                showGroupBinding.showGroupRv.setAdapter(adapter);
+                showGroupBinding.showGroupRv.setLayoutManager(layoutManager2);
 
-                    //点击后展示对应分组下的条目
-                    adapter.setGroupNameClickListener(new ShowGroupNameAdapter.GroupNameClickListener() {
-                        @Override
-                        public void onClick(int position) {
-                            groupId = groupList.get(position).getId();
-                            String groupName=groupList.get(position).getGroupName();
-                            toolbar.setTitle(groupName);
-                            list = repo.getItemsFromGroup(userId, groupId);
-                            favouriteAdapter.updateArticles(list);
-                            dialog.dismiss();
-                        }
-                    });
+                //点击后展示对应分组下的条目
+                adapter.setGroupNameClickListener(position -> {
+                    groupId = groupList.get(position).getId();
+                    String groupName=groupList.get(position).getGroupName();
+                    toolbar.setTitle(groupName);
+                    list = repo.getItemsFromGroup(userId, groupId);
+                    favouriteAdapter.updateArticles(list);
+                    dialog.dismiss();
+                });
 
-                    //所有收藏
-                    showGroupBinding.allCollectionsTv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            list = repo.getCollectionItemList(userId, 0);
-                            favouriteAdapter.updateArticles(list);
-                            groupId = 0;
-                            toolbar.setTitle("所有收藏");
-                            dialog.dismiss();
-                        }
-                    });
+                //所有收藏
+                showGroupBinding.allCollectionsTv.setOnClickListener(v -> {
+                    list = repo.getCollectionItemList(userId, 0);
+                    favouriteAdapter.updateArticles(list);
+                    groupId = 0;
+                    toolbar.setTitle("所有收藏");
+                    dialog.dismiss();
+                });
 
-                    //取消
-                    showGroupBinding.cancelText.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
+                //取消
+                showGroupBinding.cancelText.setOnClickListener(v -> dialog.dismiss());
 
-                    dialog.show();
+                dialog.show();
 
-                } else if (choose == R.id.edit_groups) {
-                    //跳转到编辑分组的activity
-                    Intent intent = new Intent(requireActivity(), ManageGroupActivity.class);
-                    intent.putExtra("userId", userId);
-                    startActivity(intent);
-                } else if (choose == R.id.sort) {
-                    //弹出时间排序
-                    BottomSheetSortDialogBinding dialogBinding = BottomSheetSortDialogBinding.inflate(getLayoutInflater());
-                    BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
-                    dialog.setContentView(dialogBinding.getRoot());
+            } else if (choose == R.id.edit_groups) {
+                //跳转到编辑分组的activity
+                Intent intent = new Intent(requireActivity(), ManageGroupActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            } else if (choose == R.id.sort) {
+                //弹出时间排序
+                BottomSheetSortDialogBinding dialogBinding = BottomSheetSortDialogBinding.inflate(getLayoutInflater());
+                BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+                dialog.setContentView(dialogBinding.getRoot());
 
 
-                    //升序
-                    dialogBinding.mixText.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            list = repo.sortByCollectionTime(userId, groupId, MyRepository.SORT_ASC);
-                            favouriteAdapter.updateArticles(list);
-                            dialog.dismiss();
-                        }
-                    });
+                //升序
+                dialogBinding.mixText.setOnClickListener(v -> {
+                    list = repo.sortByCollectionTime(userId, groupId, MyRepository.SORT_ASC);
+                    favouriteAdapter.updateArticles(list);
+                    dialog.dismiss();
+                });
 
-                    //降序
-                    dialogBinding.orderText.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            list = repo.sortByCollectionTime(userId, groupId, MyRepository.SORT_DESC);
-                            favouriteAdapter.updateArticles(list);
-                            dialog.dismiss();
-                        }
-                    });
+                //降序
+                dialogBinding.orderText.setOnClickListener(v -> {
+                    list = repo.sortByCollectionTime(userId, groupId, MyRepository.SORT_DESC);
+                    favouriteAdapter.updateArticles(list);
+                    dialog.dismiss();
+                });
 
-                    //取消
-                    dialogBinding.cancelText.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
+                //取消
+                dialogBinding.cancelText.setOnClickListener(v -> dialog.dismiss());
 
-                    dialog.show();
-                }
-                return true;
+                dialog.show();
             }
+            return true;
         });
 
         return binding.getRoot();

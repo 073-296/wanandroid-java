@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myproject.R;
-import com.example.myproject.data.model.api.Article;
 import com.example.myproject.data.model.db.CollectionItem;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package com.example.myproject.ui.login;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -47,34 +46,28 @@ public class MainActivity extends AppCompatActivity {
         repo.open();
 
         //注册
-        registerBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = usernameEt.getText().toString();
-                String password = passwordEt.getText().toString();
-                //保存进用户表中，返回
-                long userId = repo.register(username, password);
-                if (userId != -1) {
-                    //注册成功并进行跳转
-                    saveAndTurn(userId, username, password);
-                } else {
-                    ToastUtil.show(MainActivity.this, "该用户名已存在");
-                }
+        registerBt.setOnClickListener(v -> {
+            String username1 = usernameEt.getText().toString();
+            String password1 = passwordEt.getText().toString();
+            //保存进用户表中，返回
+            long userId1 = repo.register(username1, password1);
+            if (userId1 != -1) {
+                //注册成功并进行跳转
+                saveAndTurn(userId1, username1, password1);
+            } else {
+                ToastUtil.show(MainActivity.this, "该用户名已存在");
             }
         });
 
         //登录
-        loginBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = usernameEt.getText().toString();
-                String password = passwordEt.getText().toString();
-                long userId = repo.login(username, password);
-                if (userId != -1) {
-                    saveAndTurn(userId, username, password);
-                }else {
-                    ToastUtil.show(MainActivity.this, "账号或密码错误");
-                }
+        loginBt.setOnClickListener(v -> {
+            String username2 = usernameEt.getText().toString();
+            String password2 = passwordEt.getText().toString();
+            long userId2 = repo.login(username2, password2);
+            if (userId2 != -1) {
+                saveAndTurn(userId2, username2, password2);
+            }else {
+                ToastUtil.show(MainActivity.this, "账号或密码错误");
             }
         });
     }

@@ -54,7 +54,6 @@ android {
             }
         }
     }
-    //longway777 jetpack
     buildFeatures{
         viewBinding = true
     }

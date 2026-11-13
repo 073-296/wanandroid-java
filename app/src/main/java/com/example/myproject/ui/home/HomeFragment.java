@@ -2,14 +2,6 @@ package com.example.myproject.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -17,17 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.example.myproject.R;
 import com.example.myproject.data.local.MyDatabaseHelper;
+import com.example.myproject.data.model.api.Article;
+import com.example.myproject.data.model.api.ArticleList;
 import com.example.myproject.data.model.api.BannerImage;
 import com.example.myproject.data.model.db.CollectionItem;
 import com.example.myproject.data.repository.MyRepository;
-import com.example.myproject.util.ToastUtil;
 import com.example.myproject.databinding.FragmentHomeBinding;
-import com.example.myproject.data.model.api.Article;
-import com.example.myproject.data.model.api.ArticleList;
 import com.example.myproject.ui.web.WebViewActivity;
 import com.example.myproject.util.HttpUtil;
+import com.example.myproject.util.ToastUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -123,20 +121,10 @@ public class HomeFragment extends Fragment {
         //设置布局管理器
         binding.firstRecyclerView.setLayoutManager(layoutManager);
 
-        binding.refreshBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initial();
-            }
-        });
+        binding.refreshBt.setOnClickListener(v -> initial());
 
         //下拉刷新
-        binding.swiperRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-            }
-        });
+        binding.swiperRefreshLayout.setOnRefreshListener(this::refreshData);
 
         //分页加载
         binding.firstRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

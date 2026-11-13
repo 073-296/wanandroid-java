@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myproject.R;
-import com.example.myproject.data.model.api.BannerImage;
 import com.example.myproject.data.model.api.ImageMessage;
 
 import java.util.ArrayList;

@@ -7,7 +7,6 @@ import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myproject.R;
 import com.example.myproject.databinding.ActivityWebViewBinding;
 
 import java.util.Objects;

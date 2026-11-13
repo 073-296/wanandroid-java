@@ -14,7 +14,6 @@ import com.example.myproject.ui.account.AccountFragment;
 import com.example.myproject.ui.favourite.FavouriteFragment;
 /**
  * 首页容器：底部三个 Tab 对应三个 Fragment。
- *
  * 关键点（也是原来 bug 的根源）：
  * 1. Fragment 只创建一次，之后用 show/hide 切换，而不是每点一次就 new 一个新的；
  * 2. Activity 被系统重建（旋转屏幕、深色模式切换、进程被杀后恢复）时，

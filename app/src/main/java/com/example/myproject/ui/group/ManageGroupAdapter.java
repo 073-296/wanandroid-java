@@ -65,12 +65,9 @@ public class ManageGroupAdapter extends RecyclerView.Adapter<ManageGroupAdapter.
                 editTextEnable(false, holder.editText);
             });
         }
-        holder.editImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextEnable(true, holder.editText);
-                holder.confirm.setVisibility(View.VISIBLE);
-            }
+        holder.editImage.setOnClickListener(v -> {
+            editTextEnable(true, holder.editText);
+            holder.confirm.setVisibility(View.VISIBLE);
         });
     }
 
